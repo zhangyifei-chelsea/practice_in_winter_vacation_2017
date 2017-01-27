@@ -3,5 +3,5 @@ project(280_p1)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES main.cpp triangle.h triangle.cpp palindrome.h palindrome.cpp power.cpp power.h abundant.cpp abundant.h)
+set(SOURCE_FILES main.cpp triangle.cpp palindrome.cpp power.cpp abundant.cpp)
 add_executable(280_p1 ${SOURCE_FILES})

@@ -3,17 +3,16 @@
 #include <iostream>
 void triangle(int a)
 {
-    int i;
     bool flag;
-    flag=1;
-    for(i=0;i<=a;++i)
+    flag=false;
+    for(int i=0;i<=a;++i)
     {
         if(a==i*(i+1)/2)
         {
             std::cout<<a<<" is a triangle number.\n";
-            flag=0;
+            flag=true;
         }
     }
-    if (flag==1)
+    if (!flag)
         std::cout<<a<<" is NOT a triangle number.\n";
 }

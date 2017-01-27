@@ -3,9 +3,8 @@
 #include <iostream>
 void abundant(int d)
 {
-    int total,factor;
-    total=0;
-    for(factor=1;factor<d;++factor)
+    int total=0;
+    for(int factor=1;factor<d;++factor)
     {
         if(d%factor==0)
             total+=factor;
