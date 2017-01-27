@@ -12,6 +12,6 @@ void abundant(int d)
     if(total>d)
         std::cout<<d<<" is an abundant number.\n";
     else
-        std::cout<<d<<" is NOT an abundant number.\n";
+        std::cout<<d<<" is NOT abundant number.\n";
 }
 
