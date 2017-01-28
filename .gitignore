@@ -108,5 +108,3 @@ gen### C++ template
 *.app
 
 cmake-build-*
-/recursion/binary-find/CMakeLists.txt
-/recursion/binary-find/main.cpp
