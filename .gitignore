@@ -108,3 +108,5 @@ gen### C++ template
 *.app
 
 cmake-build-*
+!/recursion/gcd/CMakeLists.txt
+!/recursion/gcd/main.cpp
