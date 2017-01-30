@@ -38,7 +38,7 @@ int main()
             for(n=0;n<num;++n)
             {
                 int i=m*num+n+1;
-                if((m%(num/2)==n%(num/2))||(m%(num/2)+n%(num/2)==num/2-1))
+                if((m%4==n%4)||(m%4+n%4==3))
                     a[m][n]=num*num+1-i;
                 else
                     a[m][n]=i;
