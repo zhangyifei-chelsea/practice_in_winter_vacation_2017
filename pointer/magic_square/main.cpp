@@ -1,101 +1,47 @@
 #include <iostream>
 #include <cstdlib>
-#include <cmath>
+#include <math.h>
 int main()
 {
-    int num,j;
+    int num,m,n;
     std::cout<<"Input an odd number:";
     std::cin>>num;
-    int *p=(int*)calloc(num*num,sizeof(int));
-    j=num/2;
-    p[j]=1;
-    for (int i=2;i<=num*num;++i)
+    int **a=(int**)calloc(num,sizeof(int*));
+    for(int m=0;m<num;++m)
     {
-        if((j>=num)&&(j%num!=num-1))
-        {
-            j=j-num+1;
-            if(p[j]==0)
-                p[j]=i;
-            else
-            {
-                j=j+num-1;
-                while(p[j]!=0)
-                {
-                    j=j+num;
-                    if(j>=num*num)
-                        j=j%num;
-                }
-                p[j]=i;
-            }
-        }
+        a[m]=(int*)calloc(num,sizeof(int));
+    }
+    m=0;
+    n=num/2;
+    a[m][n]=1;
+    for(int i=2;i<=num*num;++i)
+    {
+        m=(m+num-1)%num;
+        n=(n+1)%num;
+        if(a[m][n]==0)
+            a[m][n]=i;
         else
         {
-            if(j<num-1)
-            {
-                j=j+num*(num-1)+1;
-                if(p[j]==0)
-                    p[j]=i;
-                else
-                {
-                    j=j+num-1;
-                    while(p[j]!=0)
-                    {
-                        j=j+num;
-                        if(j>=num*num)
-                            j=j%num;
-                    }
-                    p[j]=i;
-                }
-            }
-            else if((j>=num)||(j%num==num-1))
-            {
-                j=j-2*num+1;
-                if(p[j]==0)
-                    p[j]=i;
-                else
-                {
-                    j=j+num-1;
-                    while(p[j]!=0)
-                    {
-                        j=j+num;
-                        if(j>=num*num)
-                            j=j%num;
-                    }
-                    p[j]=i;
-                }
-            }
-            else
-            {
-                j=num*(num-1);
-                if(p[j]==0)
-                    p[j]=i;
-                else
-                {
-                    j=j+num-1;
-                    while(p[j]!=0)
-                    {
-                        j=j+num;
-                        if(j>=num*num)
-                            j=j%num;
-                    }
-                    p[j]=i;
-                }
-            }
-
+            m=(m+2)%num;
+            n=(n+num-1)%num;
+            a[m][n]=i;
         }
     }
-    for(int k=0;k<num;++k)
+    for(m=0;m<num;++m)
     {
-        for(int l=0;l<num;++l)
+        for(n=0;n<num;++n)
         {
-            int n,w;
-            n=k*num+l;
+            int w;
             w=log10(num*num)+3;
             std::cout.width(w);
-            std::cout<<p[n];
+            std::cout<<a[m][n];
         }
         std::cout<<std::endl;
     }
-    free(p);
+    for(m=0;m<num;++m)
+    {
+        free(a[m]);
+    }
+    free(a);
     return 0;
 }
