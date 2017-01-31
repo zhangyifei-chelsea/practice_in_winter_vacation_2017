@@ -14,7 +14,7 @@ int main()
         std::cin>>a[i];
     }
     maxmin(a,n,max,min);
-    std::cout<<"max:"<<*max<<"  min"<<*min;
+    std::cout<<"max:"<<*max<<"\nmin"<<*min;
     return 0;
 }
 void maxmin(int *a,int n,int *max,int *min)
