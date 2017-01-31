@@ -114,3 +114,5 @@ cmake-build-*
 !/recursion/nanoi/main.cpp
 !/pointer/magic_square/CMakeLists.txt
 !/pointer/magic_square/main.cpp
+!/recursion/maxmin/CMakeLists.txt
+!/recursion/maxmin/main.cpp
