@@ -11,7 +11,7 @@ int main()
 {
     int depth=1;
     string root_dir;
-    cout << "Please input the root dir: ";
+    cout << "Please input the root dir:";
     getline(cin, root_dir);
     cout<<root_dir<<endl;
     rec(root_dir,depth);
