@@ -10,7 +10,7 @@
 
 class BigNumberParseException : public std::exception
 {
-    
+
 };
 
 class BigNumber
@@ -19,6 +19,11 @@ public:
     // Use unsigned char to save digits of BigNumber
     // Be careful that the range of unsigned char is 0-255
     typedef unsigned char digit_t;
+
+    enum SYMBOL
+    {
+        POSITIVE = 1, NEGATIVE = -1
+    };
 
     // Default Constructor (set default value to zero)
     BigNumber();
@@ -38,14 +43,17 @@ public:
     // Return the length of the BigNumber
     size_t length() const;
 
+    // Return true if the BigNumber is positive
+    bool isPositive() const;
+
     // Add two BigNumbers and return a new one
-    BigNumber operator+(const BigNumber &that);
+    BigNumber operator+(const BigNumber &that) const;
 
     // Add two BigNumbers and return the left value
     BigNumber &operator+=(const BigNumber &that);
 
     // Minus two BigNumbers and return a new one
-    BigNumber operator-(const BigNumber &that);
+    BigNumber operator-(const BigNumber &that) const;
 
     // Minus two BigNumbers and return the left value
     BigNumber &operator-=(const BigNumber &that);
@@ -54,6 +62,8 @@ public:
 protected:
     // The vector to save the digits of the BigNumber
     std::vector<digit_t> m_digits;
+
+    SYMBOL m_symbol;
 };
 
 
