@@ -22,7 +22,7 @@ public:
 
     enum SYMBOL
     {
-        POSITIVE = 1, NEGATIVE = -1
+        POSITIVE = 1, ZERO = 0, NEGATIVE = -1
     };
 
     // Default Constructor (set default value to zero)
@@ -43,8 +43,8 @@ public:
     // Return the length of the BigNumber
     size_t length() const;
 
-    // Return whether the BigNumber is positive
-    bool isPositive() const;
+    // Return the symbol of the BigNumber
+    SYMBOL symbol() const;
 
     // Return the digit on the index (from left to right, excluding the symbol)
     digit_t operator[](size_t index) const;
