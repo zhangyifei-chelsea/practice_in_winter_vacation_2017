@@ -37,10 +37,7 @@ public:
     BigNumber(const std::string &numStr);
 
     // Constructor from an integer
-    BigNumber(const int64_t num);
-
-    // Constructor from an unsigned integer
-    BigNumber(const u_int64_t num);
+    BigNumber(int64_t num);
 
     // Copy Constructor
     BigNumber(const BigNumber &that);
@@ -61,22 +58,22 @@ public:
     digit_t operator[](size_t index) const;
 
     // Return whether two BigNumbers equal
-    bool operator==(BigNumber &that) const;
+    bool operator==(const BigNumber &that) const;
 
     // Return whether two BigNumbers unequal
-    bool operator!=(BigNumber &that) const;
+    bool operator!=(const BigNumber &that) const;
 
     // Return whether one BigNumber is smaller than another
-    bool operator<(BigNumber &that) const;
+    bool operator<(const BigNumber &that) const;
 
     // Return whether one BigNumber is not larger than another
-    bool operator<=(BigNumber &that) const;
+    bool operator<=(const BigNumber &that) const;
 
     // Return whether one BigNumber is larger than another
-    bool operator>(BigNumber &that) const;
+    bool operator>(const BigNumber &that) const;
 
     // Return whether one BigNumber is not smaller than another
-    bool operator>=(BigNumber &that) const;
+    bool operator>=(const BigNumber &that) const;
 
     // Reset the BigNumber from a string
     const BigNumber &operator=(const std::string &numStr);
@@ -84,8 +81,8 @@ public:
     // Reset the BigNumber from an integer
     const BigNumber &operator=(const int64_t &num);
 
-    // Reset the BigNumber from an unsigned integer
-    const BigNumber &operator=(const u_int64_t &num);
+    // Same as copy constructor
+    BigNumber operator+() const;
 
     // Add two BigNumbers and return a new one
     BigNumber operator+(const BigNumber &that) const;
@@ -97,7 +94,10 @@ public:
     BigNumber &operator++();
 
     // BigNumber++
-    const BigNumber &operator++(int);
+    const BigNumber operator++(int);
+
+    // Change the symbol of the BigNumber
+    BigNumber operator-() const;
 
     // Minus two BigNumbers and return a new one
     BigNumber operator-(const BigNumber &that) const;
@@ -109,7 +109,7 @@ public:
     BigNumber &operator--();
 
     // BigNumber--
-    const BigNumber &operator--(int);
+    const BigNumber operator--(int);
 
     // Multiple two BigNumbers and return a new one
     BigNumber operator*(const BigNumber &that) const;
@@ -137,6 +137,10 @@ protected:
 
     // Remove zeros on the left
     void trim();
+
+    static BigNumber add(const BigNumber *numA, const BigNumber *numB, const SYMBOL symbolB = POSITIVE);
+
+    static std::pair<BigNumber, BigNumber> divide(const BigNumber &divider, const BigNumber &divisor);
 };
 
 

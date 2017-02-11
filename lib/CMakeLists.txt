@@ -1,1 +1,2 @@
 add_subdirectory(md5)
+add_subdirectory(googletest)
