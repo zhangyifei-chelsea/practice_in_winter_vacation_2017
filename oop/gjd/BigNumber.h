@@ -31,6 +31,9 @@ public:
     // Constructor from a number expressed by a string (if there exists a parse error, throws BigNumberParseException)
     BigNumber(const std::string &numStr);
 
+    // Constructor from an integer
+    BigNumber(const int64_t num);
+
     // Copy Constructor
     BigNumber(const BigNumber &that);
 
@@ -66,6 +69,12 @@ public:
 
     // Return whether one BigNumber is not smaller than another
     bool operator>=(BigNumber &that) const;
+
+    // Reset the BigNumber from a string
+    const BigNumber &operator=(const std::string &numStr);
+
+    // Reset the BigNumber from an integer
+    const BigNumber &operator=(const int64_t &num);
 
     // Add two BigNumbers and return a new one
     BigNumber operator+(const BigNumber &that) const;
