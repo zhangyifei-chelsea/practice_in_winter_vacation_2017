@@ -6,6 +6,8 @@
 #include <iostream>
 #include <string>
 #include <string.h>
+#include <fstream>
+#include "../../lib/md5/md5.h"
 
 using namespace std;
 
@@ -25,9 +27,14 @@ void rec(string dir_name, int depth = 0)
         switch (file->d_type)
         {
         case DT_REG: // Regular file
+        {
             printPreffix(depth);
-            cout << file->d_name << endl;
+            cout << file->d_name << "\t";
+            ifstream input(dir_name + "/" + file->d_name);
+            MD5 md5(input);
+            cout << md5.toString() << endl;
             break;
+        }
         case DT_DIR: // Directory
             if (strcmp(file->d_name, ".") != 0 && strcmp(file->d_name, ".."))
             {
