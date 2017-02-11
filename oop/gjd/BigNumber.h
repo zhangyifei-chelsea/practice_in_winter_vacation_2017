@@ -13,12 +13,17 @@ class BigNumberParseException : public std::exception
 
 };
 
+class BigNumberBoundaryException : public std::exception
+{
+
+};
+
 class BigNumber
 {
 public:
     // Use unsigned char to save digits of BigNumber
-    // Be careful that the range of unsigned char is 0-255
-    typedef unsigned char digit_t;
+    // Be careful that the range of unsigned char is -128~127
+    typedef char digit_t;
 
     enum SYMBOL
     {
@@ -34,11 +39,14 @@ public:
     // Constructor from an integer
     BigNumber(const int64_t num);
 
+    // Constructor from an unsigned integer
+    BigNumber(const u_int64_t num);
+
     // Copy Constructor
     BigNumber(const BigNumber &that);
 
     // Destructor
-    ~BigNumber();
+    virtual ~BigNumber();
 
     // Generate a string to express the number
     std::string toString() const;
@@ -75,6 +83,9 @@ public:
 
     // Reset the BigNumber from an integer
     const BigNumber &operator=(const int64_t &num);
+
+    // Reset the BigNumber from an unsigned integer
+    const BigNumber &operator=(const u_int64_t &num);
 
     // Add two BigNumbers and return a new one
     BigNumber operator+(const BigNumber &that) const;
@@ -123,6 +134,9 @@ protected:
     std::vector<digit_t> m_digits;
 
     SYMBOL m_symbol;
+
+    // Remove zeros on the left
+    void trim();
 };
 
 
