@@ -18,6 +18,11 @@ class BigNumberBoundaryException : public std::exception
 
 };
 
+class BigNumberDivideZeroException : public std::exception
+{
+
+};
+
 class BigNumber
 {
 public:
