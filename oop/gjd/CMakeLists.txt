@@ -8,5 +8,6 @@ add_executable(gjd ${SOURCE_FILES})
 
 include_directories(../../lib/googletest/googletest/include)
 set(SOURCE_FILES unittest.cpp BigNumber.cpp)
+set(CMAKE_CXX_FLAGS -std=c++11)
 add_executable(gjd_test ${SOURCE_FILES})
 target_link_libraries(gjd_test gtest)
