@@ -5,3 +5,4 @@ set(CMAKE_CXX_STANDARD 11)
 
 set(SOURCE_FILES main.cpp)
 add_executable(direct ${SOURCE_FILES})
+target_link_libraries(direct md5)

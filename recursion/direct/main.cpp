@@ -5,16 +5,17 @@
 #include <dirent.h>
 #include <iostream>
 #include <string.h>
+#include "../../lib/md5/md5.h"
+#include <fstream>
 using namespace std;
-void rec(string dir,int depth);
+void rec(string dir,int depth=0);
 int main()
 {
-    int depth=1;
     string root_dir;
     cout << "Please input the root dir:";
     getline(cin, root_dir);
     cout<<root_dir<<endl;
-    rec(root_dir,depth);
+    rec(root_dir);
     return 0;
 }
 void rec(string dir,int depth)
@@ -27,19 +28,23 @@ void rec(string dir,int depth)
         switch (file->d_type)
         {
             case DT_REG: // Regular file
+            {
                 for(int i=0;i<depth;++i)
                     cout<<"    ";
-                cout << "|-- "<<file->d_name <<endl;
+                cout << "|-- "<<file->d_name<<"   ";
+                ifstream input(dir+'/'+file->d_name);
+                MD5 md5(input);
+                cout<<md5.toString() <<endl;
+                input.close();
                 break;
+            }
             case DT_DIR: // Directory
-                for(int i=0;i<depth;++i)
-                    cout<<"    ";
-                cout << "|-- "<<file->d_name<< endl;
-                while((strcmp(file->d_name,".")!=0)&&(strcmp(file->d_name,"..")!=0))
+                if((strcmp(file->d_name,".")!=0)&&(strcmp(file->d_name,"..")!=0))
                 {
-                    dir=dir+'/'+file->d_name;
-                    ++depth;
-                    rec(dir,depth);
+                    for(int i=0;i<depth;++i)
+                        cout<<"    ";
+                    cout << "|-- "<<file->d_name<< endl;
+                    rec(dir+'/'+file->d_name,++depth);
                 }
                 break;
         }
