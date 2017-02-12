@@ -23,15 +23,13 @@ class BigNumberDivideZeroException : public std::exception
 
 };
 
-class BigNumber
-{
+class BigNumber {
 public:
     // Use unsigned char to save digits of BigNumber
     // Be careful that the range of unsigned char is -128~127
     typedef char digit_t;
 
-    enum SYMBOL
-    {
+    enum SYMBOL {
         POSITIVE = 1, ZERO = 0, NEGATIVE = -1
     };
 
@@ -143,7 +141,7 @@ protected:
     // Remove zeros on the left
     void trim();
 
-    static BigNumber add(const BigNumber *numA, const BigNumber *numB, const SYMBOL symbolB = POSITIVE);
+    static BigNumber add(const BigNumber *numA, const BigNumber *numB, SYMBOL symbolB = POSITIVE);
 
     static std::pair<BigNumber, BigNumber> divide(const BigNumber &divider, const BigNumber &divisor);
 };
