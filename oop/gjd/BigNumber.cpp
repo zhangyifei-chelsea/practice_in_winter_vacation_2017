@@ -8,8 +8,9 @@
 #include <vector>
 #include "BigNumber.h"
 
-BigNumber::BigNumber() {
-
+BigNumber::BigNumber()
+{
+    m_symbol=ZERO;
 }
 
 // Constructor from a number expressed by a string (if there exists a parse error, throws BigNumberParseException)
@@ -23,6 +24,9 @@ BigNumber::BigNumber(const std::string &numStr) {
         if (isdigit(numStr[i])) {
             m_digits.push_back((unsigned char) numStr[i] - '0');
         }
+    }
+    if(len>1) {
+        trim();
     }
 }
 
@@ -41,6 +45,8 @@ std::string BigNumber::toString() const {
     std::string str;
     if (this->m_symbol == NEGATIVE)
         str = "-";
+    else if(this->m_symbol==ZERO)
+        str="0";
     else
         str = "";
     int len = m_digits.size();
@@ -64,17 +70,74 @@ BigNumber BigNumber::operator+(const BigNumber &that) const
      return add(this,&that);
 }
 
+// ++BigNumber
+BigNumber &BigNumber::operator++()
+{
+    const BigNumber one("1");
+    *this=*this+one;
+    return *this;
+}
+
+// BigNumber++
+const BigNumber BigNumber::operator++(int)
+{
+    const BigNumber one("1");
+    BigNumber c;
+    c=*this;
+    *this=add(this,&one);
+    return c;
+}
+
 BigNumber BigNumber::operator-(const BigNumber &that) const
 {
     return add(this,&that,NEGATIVE);
 }
 
+// --BigNumber
+BigNumber &BigNumber::operator--()
+{
+    BigNumber one("1");
+    *this=add(this,&one,NEGATIVE);
+    return *this;
+}
+
+// BigNumber--
+const BigNumber BigNumber::operator--(int)
+{
+    BigNumber one("1");
+    BigNumber c;
+    c=*this;
+    *this=add(this,&one,NEGATIVE);
+    return c;
+}
+
 BigNumber BigNumber::operator*(const BigNumber &that) const
 {
-    int flag;
-    int len_a,len_b,len,lenm;
+    BigNumber c("0");
+    BigNumber intermediate;
+    digit_t flag=0;
+    int len_a,len_b;
     len_a=this->length();
-
+    len_b=that.length();
+    for(int i=0;i<len_b;++i)
+    {
+        int multiplier;
+        multiplier=that.m_digits[i];
+        for(int k=0;k<i;++k)
+            intermediate.m_digits.push_back(0);
+        for(int j=0;j<len_a;++j)
+        {
+            digit_t digit;
+            digit=this->m_digits[j]*multiplier;
+            digit+=flag;
+            flag=digit/10;
+            digit=digit%10;
+            intermediate.m_digits.push_back(digit);
+        }
+        intermediate.m_digits.push_back(flag);
+        c=add(&c,&intermediate);
+    }
+    return c;
 }
 
 void BigNumber::trim()
@@ -82,17 +145,18 @@ void BigNumber::trim()
     while((length()>0)&&(m_digits.back()==0))
         m_digits.pop_back();
     if(length()==0)
+    {
         m_symbol=ZERO;
+    }
 }
 
 BigNumber BigNumber::add(const BigNumber *numA, const BigNumber *numB, SYMBOL symbolB)
 {
     BigNumber c;
     SYMBOL symbolA=numA->m_symbol;
-    if(numB->m_symbol==NEGATIVE)
-        symbolB=SYMBOL ((-1)*(int)symbolB);
-    else
-        symbolB=numB->m_symbol;
+    if(numB->m_symbol==NEGATIVE) {
+        symbolB = SYMBOL((-1) * (int) symbolB);
+    }
     int len_a, len_b, len, lenm;
     len_a = (numA->m_digits).size();
     len_b = (numB->m_digits).size();
@@ -112,7 +176,7 @@ BigNumber BigNumber::add(const BigNumber *numA, const BigNumber *numB, SYMBOL sy
     bool flag = false;
     bool flag0=false;
     digit_t digit;
-    if (((symbolA==POSITIVE)&&(symbolB==POSITIVE))||((symbolA==NEGATIVE)&&(symbolB==NEGATIVE)))
+    if (((symbolA!=NEGATIVE)&&(symbolB!=NEGATIVE))||((symbolA==NEGATIVE)&&(symbolB==NEGATIVE)))
     {
         for (int i = 0; i < len; ++i)
         {
@@ -146,8 +210,12 @@ BigNumber BigNumber::add(const BigNumber *numA, const BigNumber *numB, SYMBOL sy
             c.m_digits.push_back(1);
         if((symbolA==NEGATIVE)&&(symbolB==NEGATIVE))
             c.m_symbol=NEGATIVE;
+        else
+        {
+            c.m_symbol=POSITIVE;
+        }
     }
-    if ((int)symbolA+(int)symbolB==0)
+    if ((symbolA==NEGATIVE&&symbolB!=NEGATIVE)||(symbolB==NEGATIVE&&symbolA!=NEGATIVE))
     {
         if(len!=lenm) {
             for (int i = 0; i < len; ++i) {
@@ -180,13 +248,19 @@ BigNumber BigNumber::add(const BigNumber *numA, const BigNumber *numB, SYMBOL sy
                 c.m_digits.push_back(digit);
             }
             else
+            {
                 c.m_digits.push_back(digit);
+            }
             if (c.m_digits.back() < 0) {
                 c.m_digits[0] = 10 - c.m_digits[0];
                 for (int i = 1; i < lenm - 1; ++i)
                     c.m_digits[i] = 9 - c.m_digits[i];
                 c.m_digits[lenm - 1] = -c.m_digits[lenm - 1] - 1;
                 c.m_symbol = NEGATIVE;
+            }
+            else
+            {
+                c.m_symbol=POSITIVE;
             }
         }
         else
@@ -211,15 +285,29 @@ BigNumber BigNumber::add(const BigNumber *numA, const BigNumber *numB, SYMBOL sy
                 c.m_digits.push_back(digit);
             }
             else
+            {
                 c.m_digits.push_back(digit);
+            }
             if (c.m_digits.back() < 0)
             {
-                c.m_digits[0] = 10 - c.m_digits[0];
-                for (int i = 1; i < len- 1; ++i)
-                    c.m_digits[i] = 9 - c.m_digits[i];
-                c.m_digits[len - 1] = -c.m_digits[len - 1] - 1;
-                c.m_symbol = NEGATIVE;
+                if(c.m_digits.size()>1) {
+                    c.m_digits[0] = 10 - c.m_digits[0];
+                    for (int i = 1; i < len - 1; ++i)
+                        c.m_digits[i] = 9 - c.m_digits[i];
+                    c.m_digits[len - 1] = -c.m_digits[len - 1] - 1;
+                    c.m_symbol = NEGATIVE;
+                }
+                else
+                {
+                    c.m_digits[len - 1] = -c.m_digits[len - 1] ;
+                    c.m_symbol = NEGATIVE;
+                }
             }
+            else
+            {
+                c.m_symbol=POSITIVE;
+            }
+
         }
     }
     c.trim();
