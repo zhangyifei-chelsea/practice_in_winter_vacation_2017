@@ -523,7 +523,7 @@ std::pair<BigNumber, BigNumber> BigNumber::divide(const BigNumber &divider, cons
                 //std::cout<<(int)r.m_digits[r.length()-l-1]<<std::endl;
                 //process.trim();
                 process.m_symbol=POSITIVE;
-                std::cout << process.toString()<<std::endl;
+               // std::cout << process.toString()<<std::endl;
             }
             else
             {
@@ -539,7 +539,7 @@ std::pair<BigNumber, BigNumber> BigNumber::divide(const BigNumber &divider, cons
                 //break;
             }
         }
-        std::cout << t<<"     "<<process.toString()<<std::endl;
+        //std::cout << t<<"     "<<process.toString()<<std::endl;
         int len;
         BigNumber inter,inter2;
         inter.m_symbol=POSITIVE;
@@ -577,8 +577,8 @@ std::pair<BigNumber, BigNumber> BigNumber::divide(const BigNumber &divider, cons
         for(int i=0;i<len;++i)
             m.m_digits.push_back(inter.m_digits[i]);
         r=r-m;
-        std::cout<<m.toString()<<std::endl;
-        std::cout<<r.toString()<<std::endl;
+        //std::cout<<m.toString()<<std::endl;
+        //std::cout<<r.toString()<<std::endl;
 
     }
     int len_f;
@@ -590,7 +590,7 @@ std::pair<BigNumber, BigNumber> BigNumber::divide(const BigNumber &divider, cons
         f.m_digits.push_back(factor.m_digits[len_f-1-i]);
     }
     f.trim();
-    std::cout<<f.toString();
+    //std::cout<<f.toString();
     return std::pair<BigNumber, BigNumber>(f,r);
 };
 
