@@ -56,8 +56,10 @@ BigNumber::BigNumber(int64_t num)
 }
 
 // Copy Constructor
-BigNumber::BigNumber(const BigNumber &that) {
-
+BigNumber::BigNumber(const BigNumber &that)
+{
+    m_digits=that.m_digits;
+    m_symbol=that.m_symbol;
 }
 
 // Destructor
@@ -548,7 +550,7 @@ std::pair<BigNumber, BigNumber> BigNumber::divide(const BigNumber &divider, cons
                 //break;
             }
         }
-        std::cout << t<<"     "<<process.toString()<<std::endl;
+        //std::cout << t<<"     "<<process.toString()<<std::endl;
         int len;
         BigNumber inter,inter2;
         inter.m_symbol=POSITIVE;
@@ -586,8 +588,8 @@ std::pair<BigNumber, BigNumber> BigNumber::divide(const BigNumber &divider, cons
         for(int i=0;i<len;++i)
             m.m_digits.push_back(inter.m_digits[i]);
         r=r-m;
-        std::cout<<m.toString()<<std::endl;
-        std::cout<<r.toString()<<std::endl;
+        //std::cout<<m.toString()<<std::endl;
+        //std::cout<<r.toString()<<std::endl;
 
     }
     BigNumber f;
@@ -630,8 +632,8 @@ std::pair<BigNumber, BigNumber> BigNumber::divide(const BigNumber &divider, cons
         f.m_symbol=NEGATIVE;
         r.m_symbol=POSITIVE;
     }
-    std::cout<<"1. "<<f.toString()<<std::endl;
-    std::cout<<"2. "<<r.toString()<<std::endl;
+    //std::cout<<"1. "<<f.toString()<<std::endl;
+    //std::cout<<"2. "<<r.toString()<<std::endl;
     return std::pair<BigNumber, BigNumber>(f,r);
 };
 

@@ -10,7 +10,7 @@ int main()
     BigNumber b("999");
     auto c=a/b;
     auto d=a%b;
-    //cout<<c.toString()<<std::endl;
-    //cout<<d.toString()<<std::endl;
+    cout<<c.toString()<<std::endl;
+    cout<<d.toString()<<std::endl;
     return 0;
 }
