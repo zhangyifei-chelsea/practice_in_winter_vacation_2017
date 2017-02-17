@@ -6,6 +6,8 @@
 #include "Cipher.h"
 #include "md5.h"
 
+const char Cipher::BASE64_SYMBOLS[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
 Cipher::Cipher()
 {
     m_mode = MODE_ENCRYPT;
@@ -24,11 +26,11 @@ Cipher::Cipher(const std::string &encrypted, const std::string &password)
     decrypt(encrypted, password);
 }
 
-u_int64_t Cipher::hashPassword(const std::string &password)
+uint64_t Cipher::hashPassword(const std::string &password)
 {
     MD5 md5(password);
     auto bytes = md5.digest();
-    u_int64_t hash = bytes[0];
+    uint64_t hash = bytes[0];
     for (int i = 1; i < 8; i++)
     {
         hash <<= 8;
@@ -115,13 +117,13 @@ std::vector<int64_t> Cipher::base64_decode(const std::string &str)
 
 }
 
-void Cipher::_addInt(int128_t data, u_int8_t length)
+void Cipher::_addInt(int128_t data, uint8_t length)
 {
     if (m_mode != MODE_ENCRYPT)return;
     // Add data here
 }
 
-int128_t Cipher::_getInt(u_int8_t length)
+int128_t Cipher::_getInt(uint8_t length)
 {
     if (m_mode != MODE_DECRYPT)return -1;
     // Get data here

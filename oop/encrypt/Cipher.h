@@ -22,7 +22,7 @@ public:
     // Constructor from a encrypted string and a password
     Cipher(const std::string &encrypted, const std::string &password);
 
-    static u_int64_t hashPassword(const std::string &password);
+    static uint64_t hashPassword(const std::string &password);
 
     void addInt8(int8_t data);
 
@@ -53,7 +53,7 @@ public:
     static std::vector<int64_t> base64_decode(const std::string &str);
 
 protected:
-    const char BASE64_SYMBOLS[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    static const char BASE64_SYMBOLS[65];
 
     enum MODE
     {
@@ -64,14 +64,14 @@ protected:
     MODE m_mode;
 
     // The position of current
-    u_int64_t m_pos = 0;
+    uint64_t m_pos = 0;
 
     // Can only be 0,1,2,3
-    u_int8_t m_offset = 0;
+    uint8_t m_offset = 0;
 
-    void _addInt(int128_t data, u_int8_t length = 8);
+    void _addInt(int128_t data, uint8_t length = 8);
 
-    int128_t _getInt(u_int8_t length = 8);
+    int128_t _getInt(uint8_t length = 8);
 };
 
 
