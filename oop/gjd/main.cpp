@@ -12,5 +12,7 @@ int main()
     auto d=a%b;
     cout<<c.toString()<<std::endl;
     cout<<d.toString()<<std::endl;
+    cout<<(1%-1)<<endl;
+
     return 0;
 }

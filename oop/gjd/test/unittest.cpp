@@ -14,7 +14,10 @@
 #include "subtraction.h"
 #include "subtraction_longer.h"
 
+#include "multiple.h"
 #include "multiple_longer.h"
+
+#include "division.h"
 
 int main(int argc, char **argv)
 {
