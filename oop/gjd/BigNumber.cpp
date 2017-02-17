@@ -485,12 +485,21 @@ std::pair<BigNumber, BigNumber> BigNumber::divide(const BigNumber &divider, cons
         std::cout<<"Error.";
     BigNumber factor;
     BigNumber r;
+    BigNumber divisor0;
+    BigNumber alter("-1");
+    if(divider.m_symbol==NEGATIVE)
+        r=divider*alter;
+    else
+        r=divider;
+    if(divisor.m_symbol==NEGATIVE)
+        divisor0=divisor*alter;
+    else
+        divisor0=divisor;
     factor.m_symbol=POSITIVE;
-    r=divider;
     int t=0;
     BigNumber process;
     process.m_symbol=POSITIVE;
-    while(r>=divisor)
+    while(r>=divisor0)
     {
         ++t;
         if(t==1)
@@ -499,7 +508,7 @@ std::pair<BigNumber, BigNumber> BigNumber::divide(const BigNumber &divider, cons
             {
                 process.m_digits.push_back(r.m_digits[r.length() - 1 - j]);
             }
-            if (process < divisor)
+            if (process < divisor0)
             {
                 for (int j = len_divisor - 1; j >= 0; --j)
                     process.m_digits.pop_back();
@@ -539,7 +548,7 @@ std::pair<BigNumber, BigNumber> BigNumber::divide(const BigNumber &divider, cons
                 //break;
             }
         }
-        //std::cout << t<<"     "<<process.toString()<<std::endl;
+        std::cout << t<<"     "<<process.toString()<<std::endl;
         int len;
         BigNumber inter,inter2;
         inter.m_symbol=POSITIVE;
@@ -549,9 +558,9 @@ std::pair<BigNumber, BigNumber> BigNumber::divide(const BigNumber &divider, cons
         for(k;k<=limit;++k)
         {
             //std::cout<<"---"<<std::endl;
-            inter=divisor*k;
-            inter2=inter+divisor;
-            BigNumber zero("0");
+            inter=divisor0*k;
+            inter2=inter+divisor0;
+            //BigNumber zero("0");
             /*if(process==zero)
             {
                 factor.m_digits.push_back(0);
@@ -577,20 +586,52 @@ std::pair<BigNumber, BigNumber> BigNumber::divide(const BigNumber &divider, cons
         for(int i=0;i<len;++i)
             m.m_digits.push_back(inter.m_digits[i]);
         r=r-m;
-        //std::cout<<m.toString()<<std::endl;
-        //std::cout<<r.toString()<<std::endl;
+        std::cout<<m.toString()<<std::endl;
+        std::cout<<r.toString()<<std::endl;
 
     }
-    int len_f;
-    len_f=factor.length();
     BigNumber f;
     f.m_symbol=POSITIVE;
-    for(int i=0;i<len_f;++i)
+    BigNumber compare;
+    compare=divider;
+    compare.m_symbol=POSITIVE;
+    while(f*divisor0<compare-r)
     {
-        f.m_digits.push_back(factor.m_digits[len_f-1-i]);
+        factor.m_digits.push_back(0);
+        int len_f;
+        len_f=factor.length();
+        for(int i=0;i<len_f;++i)
+        {
+            f.m_digits.push_back(factor.m_digits[len_f-1-i]);
+        }
     }
     f.trim();
-    //std::cout<<f.toString();
+    if((divider.m_symbol==POSITIVE)&&(divisor.m_symbol==POSITIVE))
+    {
+        f.m_symbol=POSITIVE;
+        r.m_symbol=POSITIVE;
+    }
+    if((divider.m_symbol==NEGATIVE)&&(divisor.m_symbol==NEGATIVE))
+    {
+        f.m_symbol=POSITIVE;
+        r.m_symbol=NEGATIVE;
+    }
+    if((divider.m_symbol==POSITIVE)&&(divisor.m_symbol==NEGATIVE))
+    {
+        ++f;
+        r=divisor0-r;
+        f.m_symbol=NEGATIVE;
+        r.m_symbol=NEGATIVE;
+    }
+    if((divider.m_symbol==NEGATIVE)&&(divisor.m_symbol==POSITIVE))
+    {
+        ++f;
+        r=divisor0-r;
+        f.m_symbol=NEGATIVE;
+        r.m_symbol=POSITIVE;
+    }
+    std::cout<<"1. "<<f.toString()<<std::endl;
+    std::cout<<"2. "<<r.toString()<<std::endl;
     return std::pair<BigNumber, BigNumber>(f,r);
 };
 
